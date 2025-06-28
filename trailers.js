@@ -24,12 +24,12 @@ loadBtn.addEventListener("click", () => {
 						const res = await fetch(url, {
 							headers: { "X-Access-Key": ACCESS_KEY }
 						});
-						if (!res.ok) throw new Error("Доступ запрещён");
+						if (!res.ok) throw new Error(`Доступ запрещён (${res.status})`);
 						const blob = await res.blob();
 						const blobUrl = URL.createObjectURL(blob);
 						window.open(blobUrl, "_blank");
-					} catch {
-						alert("Ошибка доступа или загрузки");
+					} catch (e) {
+						alert("Ошибка доступа или загрузки: " + e.message);
 					}
 				});
 
