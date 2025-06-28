@@ -26,14 +26,17 @@ jobs:
           TRAILER_ACCESS_KEY: ${{ secrets.TRAILER_ACCESS_KEY }}
         run: node .github/scripts/generate.js
 
-      - name: Настройка git и пуш
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add trailers.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Автообновление trailers.json"
-            git push
-          else
-            echo "Нет изменений для коммита, пуш пропущен"
-          fi
+- name: Настройка git и пуш
+  env:
+    PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+  run: |
+    git config user.name "GitHub Actions"
+    git config user.email "actions@github.com"
+    git remote set-url origin https://x-access-token:${PUSH_TOKEN}@github.com/${{ github.repository }}
+    git add trailers.json
+    if ! git diff --cached --quiet; then
+      git commit -m "Автообновление trailers.json"
+      git push origin HEAD:main
+    else
+      echo "Нет изменений для коммита, пуш пропущен"
+    fi
