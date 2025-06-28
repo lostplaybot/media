@@ -15,12 +15,11 @@ loadBtn.addEventListener("click", () => {
 			container.innerHTML = "";
 			files.forEach(filename => {
 				const url = `https://trailer.lostplay.workers.dev/${filename}`;
-				const a = document.createElement("a");
-				a.textContent = filename.replace(/\.mp4$/i, "");
-				a.href = url;
-				a.target = "_blank";
-				a.addEventListener("click", async e => {
-					e.preventDefault();
+
+				const btn = document.createElement("button");
+				btn.textContent = filename.replace(/\.mp4$/i, "");
+				btn.className = "trailer-btn";
+				btn.addEventListener("click", async () => {
 					try {
 						const res = await fetch(url, {
 							headers: { "X-Access-Key": ACCESS_KEY }
@@ -33,7 +32,8 @@ loadBtn.addEventListener("click", () => {
 						alert("Ошибка доступа или загрузки");
 					}
 				});
-				container.appendChild(a);
+
+				container.appendChild(btn);
 			});
 		})
 		.catch(() => {
