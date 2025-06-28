@@ -20,7 +20,7 @@ async function fetchReleaseAssets() {
 	const data = await res.json();
 	return data.assets
 		.filter(asset => asset.name.endsWith(".mp4"))
-		.map(asset => `${proxyBase}/${asset.name}?key=${accessKey}`);
+		.map(asset => asset.name);
 }
 
 async function main() {
