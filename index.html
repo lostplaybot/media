@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8" />
+	<title>Список трейлеров</title>
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<h1>Список трейлеров</h1>
+	<div id="list">Загрузка...</div>
+	<script>
+		const container = document.getElementById("list");
+		fetch("trailers.json")
+			.then(r => r.json())
+			.then(links => {
+				container.innerHTML = "";
+				links.forEach(url => {
+					const name = url.split("/").pop().split("?")[0].replace(/\.mp4$/i, "");
+					const a = document.createElement("a");
+					a.href = url;
+					a.textContent = name;
+					a.target = "_blank";
+					container.appendChild(a);
+				});
+			})
+			.catch(() => { container.textContent = "Ошибка загрузки списка." });
+	</script>
+</body>
+</html>

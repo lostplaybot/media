@@ -1,0 +1,41 @@
+name: Generate trailers.json
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout репозиторий
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Установка Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Установка node-fetch
+        run: npm install node-fetch@2
+
+      - name: Генерация trailers.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRAILER_ACCESS_KEY: ${{ secrets.TRAILER_ACCESS_KEY }}
+        run: node .github/scripts/generate.js
+
+      - name: Настройка git и пуш
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add trailers.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Автообновление trailers.json"
+            git push origin HEAD:main
+          else
+            echo "Нет изменений для коммита, пуш пропущен"
