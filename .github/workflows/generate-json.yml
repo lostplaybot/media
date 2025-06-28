@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout репозиторий
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # отключаем GITHUB_TOKEN, иначе конфликт
 
       - name: Установка Node.js
         uses: actions/setup-node@v3
@@ -26,7 +28,7 @@ jobs:
           TRAILER_ACCESS_KEY: ${{ secrets.TRAILER_ACCESS_KEY }}
         run: node .github/scripts/generate.js
 
-      - name: Настройка git и пуш
+      - name: Настройка git и пуш через PUSH_TOKEN
         env:
           PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
         run: |
