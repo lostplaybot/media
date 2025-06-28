@@ -35,7 +35,7 @@ loadBtn.addEventListener("click", () => {
 						video.src = blobUrl;
 						video.controls = true;
 						video.autoplay = true;
-						video.style.width = "100%";
+						video.style.width = "80vw";
 						video.style.maxHeight = "80vh";
 
 						const modal = document.createElement("div");
@@ -48,7 +48,7 @@ loadBtn.addEventListener("click", () => {
 						modal.style.display = "flex";
 						modal.style.alignItems = "center";
 						modal.style.justifyContent = "center";
-						modal.style.zIndex = 1000;
+						modal.style.zIndex = 10000;
 						modal.appendChild(video);
 
 						modal.addEventListener("click", e => {
