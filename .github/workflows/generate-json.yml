@@ -11,7 +11,6 @@ jobs:
     steps:
       - name: Checkout репозиторий
         uses: actions/checkout@v3
-        # persist-credentials: false  # Убери или закомментируй, чтобы пуш работал
 
       - name: Установка Node.js
         uses: actions/setup-node@v3
