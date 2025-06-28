@@ -19,8 +19,8 @@ async function fetchReleaseAssets() {
 	if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
 	const data = await res.json();
 	return data.assets
-		.map(asset => `${proxyBase}/${asset.name}?key=${accessKey}`)
-		.filter(link => link.endsWith(".mp4"));
+		.filter(asset => asset.name.endsWith(".mp4"))
+		.map(asset => `${proxyBase}/${asset.name}?key=${accessKey}`);
 }
 
 async function main() {
