@@ -11,9 +11,9 @@ async function fetchReleaseAssets() {
 	const url = `https://api.github.com/repos/${owner}/${repo}/releases/tags/${tag}`;
 	const res = await fetch(url, {
 		headers: {
-			"Accept": "application/vnd.github+json",
+			Accept: "application/vnd.github+json",
 			"User-Agent": "GitHub Action",
-			"Authorization": `token ${process.env.GITHUB_TOKEN}`,
+			Authorization: `token ${process.env.GITHUB_TOKEN}`,
 		},
 	});
 	if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
