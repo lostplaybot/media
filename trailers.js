@@ -2,15 +2,17 @@ const keyInput = document.getElementById("keyInput");
 const loadBtn = document.getElementById("loadBtn");
 const container = document.getElementById("list");
 
+let ACCESS_KEY = "";
+
 loadBtn.addEventListener("click", () => {
-	const ACCESS_KEY = keyInput.value.trim();
+	ACCESS_KEY = keyInput.value.trim();
 	if (!ACCESS_KEY) {
 		alert("Ключ обязателен");
 		return;
 	}
 
 	fetch("trailers.json")
-		.then(r => r.json())
+		.then(res => res.json())
 		.then(files => {
 			container.innerHTML = "";
 			files.forEach(filename => {
@@ -19,7 +21,9 @@ loadBtn.addEventListener("click", () => {
 				const btn = document.createElement("button");
 				btn.textContent = filename.replace(/\.mp4$/i, "");
 				btn.className = "trailer-btn";
+
 				btn.addEventListener("click", async () => {
+					console.log("Запрос с ключом:", ACCESS_KEY);
 					try {
 						const res = await fetch(url, {
 							headers: { "X-Access-Key": ACCESS_KEY }
