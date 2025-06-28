@@ -1,5 +1,5 @@
-import fetch from "node-fetch";
-import fs from "fs";
+const fetch = require("node-fetch");
+const fs = require("fs");
 
 const owner = "lostplaybot";
 const repo = "media";
@@ -23,7 +23,7 @@ async function fetchReleaseAssets() {
 		.filter(link => link.endsWith(".mp4"));
 }
 
-async function main() {
+(async () => {
 	try {
 		const links = await fetchReleaseAssets();
 		fs.writeFileSync("trailers.json", JSON.stringify(links, null, 2), "utf-8");
@@ -32,6 +32,4 @@ async function main() {
 		console.error("Ошибка:", e.message);
 		process.exit(1);
 	}
-}
-
-main();
+})();
